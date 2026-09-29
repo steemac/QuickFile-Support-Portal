@@ -1,0 +1,488 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="QuickFile Support Portal: training, reporting, archive and video tools, plus support, community and service status links.">
+<title>QuickFile Support Portal</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Public+Sans:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  /* Layout: brand bar (logo only) → blue gradient hero → overlapping card grid of the 4 tools → resource link grid → status strip.
+     Same branded light/blue theme as Ledger Line Reports and the Archive Viewer (single light look, by design). */
+  :root{
+    --bg:#ffffff;
+    --surface:#ffffff;
+    --surface-alt:#f4f6f9;
+    --border:#d7dce3;
+    --text:#1c2530;
+    --text-muted:#616d7d;
+    --brand-blue:#2f6feb;
+    --brand-blue-dark:#1f4fc4;
+    --accent-soft:#e9f0fe;
+    --good:#1e7a4c;
+    --good-soft:#e3f3ea;
+    --on-brand:#ffffff;
+    --brand-gradient:linear-gradient(135deg,#2f5fe0 0%,#3fa0e6 100%);
+    --shadow:0 1px 2px rgba(20,30,40,.06), 0 8px 24px rgba(20,30,40,.06);
+    --font-display:"Fraunces",Georgia,serif;
+    --font-body:"Public Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    --font-mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+    color-scheme:light;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:var(--font-body);font-size:14px;line-height:1.5;}
+  a{color:inherit;}
+  a:focus-visible,summary:focus-visible{outline:2px solid var(--brand-blue);outline-offset:2px;border-radius:6px;}
+
+  /* brand bar */
+  .site-nav{background:var(--surface);border-bottom:1px solid #e3e8f0;}
+  .nav-inner{max-width:1220px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px 16px;padding:14px 20px;}
+  .btn-home{display:inline-flex;align-items:center;gap:6px;background:var(--brand-blue);color:var(--on-brand);border:1px solid var(--brand-blue);border-radius:8px;padding:8px 16px;font-size:13.5px;font-weight:700;text-decoration:none;white-space:nowrap;}
+  .btn-home:hover{background:var(--brand-blue-dark);border-color:var(--brand-blue-dark);}
+  .nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+  .logo-img{display:block;height:28px;width:auto;}
+  .logo-badge{font-size:11px;font-weight:700;letter-spacing:.05em;color:var(--brand-blue);background:#eaf1fe;border-radius:6px;padding:3px 8px;text-transform:uppercase;}
+
+  /* hero */
+  .hero{background:var(--brand-gradient);color:var(--on-brand);}
+  .hero-inner{max-width:880px;margin:0 auto;text-align:center;display:flex;flex-direction:column;align-items:center;gap:16px;padding:44px 20px 96px;}
+  .hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.35);border-radius:99px;padding:6px 16px;font-size:12.5px;font-weight:600;}
+  .hero h1{font-family:var(--font-display);font-weight:600;font-size:clamp(26px,4vw,40px);line-height:1.15;margin:0;text-wrap:balance;}
+  .hero-sub{font-size:15px;line-height:1.6;color:rgba(255,255,255,.92);max-width:62ch;margin:0;}
+  .hero-stats{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;}
+  .stat-pill{display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.32);border-radius:99px;padding:6px 14px;font-size:12px;font-weight:600;white-space:nowrap;text-decoration:none;color:var(--on-brand);}
+  a.stat-pill:hover{background:rgba(255,255,255,.24);}
+
+  .wrap{max-width:1220px;margin:0 auto;padding-inline:20px;padding-block:0 48px;display:flex;flex-direction:column;gap:40px;}
+
+  /* section heads */
+  .section-head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:6px 20px;}
+  .eyebrow{color:var(--brand-blue);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;}
+  .section-head h2{margin:2px 0 0;font-family:var(--font-display);font-weight:600;font-size:23px;text-wrap:balance;}
+  .section-hint{color:var(--text-muted);font-size:12.5px;max-width:60ch;}
+
+  /* tool cards */
+  .tools{margin-top:-64px;position:relative;z-index:2;display:grid;grid-template-columns:1fr;gap:18px;}
+  .tool{background:var(--surface);border:1px solid var(--border);border-radius:14px;box-shadow:var(--shadow);overflow:hidden;display:flex;flex-direction:column;}
+  .tool::before{content:"";display:block;height:4px;background:var(--brand-gradient);}
+  .tool-body{padding:20px 22px 20px;display:flex;flex-direction:column;gap:14px;flex:1;}
+  .tool-top{display:flex;gap:14px;align-items:flex-start;}
+  .tool-icon{flex:none;width:46px;height:46px;border-radius:11px;background:var(--accent-soft);color:var(--brand-blue-dark);display:grid;place-items:center;}
+  .tool-title{min-width:0;}
+  .tool-title h3{margin:0;font-family:var(--font-display);font-weight:600;font-size:20px;line-height:1.2;}
+  .tool-url{font-family:var(--font-mono);font-size:11.5px;color:var(--text-muted);overflow-wrap:anywhere;}
+  .tool p{margin:0;color:var(--text);max-width:65ch;}
+  .features{display:flex;flex-wrap:wrap;gap:6px;margin:0;padding:0;list-style:none;}
+  .features li{font-size:11.5px;font-weight:600;color:var(--brand-blue-dark);background:var(--accent-soft);border-radius:99px;padding:3px 10px;}
+
+  details.guide{border:1px solid var(--border);border-radius:10px;background:var(--surface-alt);}
+  details.guide summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 14px;font-weight:700;font-size:13px;color:var(--text);}
+  details.guide summary::-webkit-details-marker{display:none;}
+  details.guide summary .chev{transition:transform .15s;color:var(--text-muted);}
+  details.guide[open] summary .chev{transform:rotate(180deg);}
+  details.guide ol{margin:0;padding:0 16px 14px 34px;display:flex;flex-direction:column;gap:6px;color:var(--text);font-size:13px;}
+  details.guide ol li::marker{color:var(--brand-blue);font-weight:700;}
+  @media (prefers-reduced-motion: reduce){ details.guide summary .chev{transition:none;} }
+
+  .tool-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:auto;padding-top:4px;}
+  .btn{display:inline-flex;align-items:center;gap:7px;border-radius:8px;padding:9px 16px;font-size:13.5px;font-weight:700;text-decoration:none;border:1px solid var(--brand-blue);white-space:nowrap;transition:background .15s,border-color .15s;}
+  .btn.primary{background:var(--brand-blue);color:var(--on-brand);}
+  .btn.primary:hover{background:var(--brand-blue-dark);border-color:var(--brand-blue-dark);}
+  .btn.outline{background:var(--surface);color:var(--brand-blue);}
+  .btn.outline:hover{background:#eaf1fe;}
+
+  /* compact list layout: title row with buttons on the right, then text, tags and guide */
+  .tools{gap:12px;}
+  .tool::before{height:3px;}
+  .tool-body{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:8px 16px;padding:14px 18px;}
+  .tool-body > *{grid-column:1 / -1;}
+  .tool-body > .tool-top{grid-column:1;grid-row:1;align-items:center;gap:12px;}
+  .tool-body > .tool-actions{grid-column:2;grid-row:1;margin-top:0;padding-top:0;justify-content:flex-end;}
+  .tool-icon{width:38px;height:38px;border-radius:9px;}
+  .tool-icon svg{width:20px;height:20px;}
+  .tool-title h3{font-size:17.5px;}
+  .tool-title .eyebrow{font-size:10.5px;}
+  .tool p{font-size:13.5px;line-height:1.5;max-width:none;}
+  .features li{font-size:11px;padding:2px 9px;}
+  details.guide summary{padding:7px 12px;font-size:12.5px;}
+  details.guide ol{padding:0 14px 10px 32px;gap:4px;font-size:12.5px;}
+  .tool .btn{padding:7px 13px;font-size:13px;}
+  @media (max-width:700px){
+    .tool-body > .tool-actions{grid-column:1 / -1;grid-row:auto;justify-content:flex-start;}
+  }
+
+  /* illustration panel on the left of each card */
+  .tool{display:grid;grid-template-columns:160px minmax(0,1fr);}
+  .tool::before{display:none;}
+  .tool-art{background:var(--brand-gradient);display:grid;place-items:center;padding:12px;}
+  .tool-art svg{display:block;width:120px;height:120px;max-width:100%;}
+  @media (max-width:560px){
+    .tool{grid-template-columns:84px minmax(0,1fr);}
+    .tool-art{padding:8px;align-items:start;padding-top:16px;}
+    .tool-art svg{width:62px;height:62px;}
+  }
+
+  /* uniform card buttons: primary always last (right edge lines up), fixed widths */
+  .tool .tool-actions{flex-wrap:nowrap;}
+  .tool .btn{justify-content:center;}
+  .tool .btn.primary{order:3;width:156px;}
+  .tool .btn.outline{width:96px;}
+  @media (max-width:700px){ .tool .tool-actions{flex-wrap:wrap;} .tool .btn.primary{order:0;} }
+  @media (max-width:420px){ .tool .btn.primary,.tool .btn.outline{width:auto;flex:1 1 auto;} }
+
+  /* resource links */
+  .resource-group{display:flex;flex-direction:column;gap:12px;}
+  .group-label{font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;}
+  .links{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;}
+  .links.two{grid-template-columns:repeat(2,minmax(0,1fr));}
+  .link-card{display:flex;flex-direction:column;gap:8px;padding:16px 18px;border:1px solid var(--border);border-radius:12px;background:var(--surface);text-decoration:none;color:var(--text);transition:border-color .15s, box-shadow .15s, transform .15s;}
+  .link-card:hover{border-color:var(--brand-blue);box-shadow:var(--shadow);transform:translateY(-1px);}
+  .link-card .lc-top{display:flex;align-items:center;gap:10px;}
+  .link-card .lc-icon{flex:none;width:34px;height:34px;border-radius:9px;background:var(--accent-soft);color:var(--brand-blue-dark);display:grid;place-items:center;}
+  .link-card h4{margin:0;font-size:14.5px;font-weight:700;line-height:1.3;}
+  .link-card p{margin:0;font-size:13px;color:var(--text-muted);}
+  .link-card .lc-go{margin-top:auto;font-size:12.5px;font-weight:700;color:var(--brand-blue);display:inline-flex;align-items:center;gap:5px;}
+  @media (prefers-reduced-motion: reduce){ .link-card{transition:none;} .link-card:hover{transform:none;} }
+
+  .links.list{grid-template-columns:1fr;gap:12px;}
+  .links.list .link-card{display:grid;grid-template-columns:minmax(220px,300px) minmax(0,1fr) auto;align-items:center;gap:8px 20px;}
+  .links.list .link-card .lc-go{margin-top:0;white-space:nowrap;}
+  @media (max-width:760px){ .links.list .link-card{grid-template-columns:1fr;} }
+
+  /* contact support panel */
+  .contact{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:14px 22px;padding:18px 22px;border:1px solid color-mix(in srgb, var(--brand-blue) 30%, var(--border));background:var(--accent-soft);border-radius:12px;}
+  .contact-art{width:84px;height:84px;border-radius:12px;background:var(--brand-gradient);display:grid;place-items:center;}
+  .contact-art svg{display:block;}
+  .contact-lead{margin:0 0 6px;font-weight:700;font-size:14.5px;}
+  .contact-points{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px;font-size:13.5px;max-width:80ch;}
+  .contact-points li::marker{color:var(--brand-blue);}
+  @media (max-width:760px){ .contact{grid-template-columns:auto minmax(0,1fr);} .contact-btn{grid-column:1 / -1;justify-self:start;} }
+  @media (max-width:480px){ .contact{grid-template-columns:1fr;padding:16px;} }
+
+  /* status strip */
+  .status{display:flex;flex-wrap:wrap;align-items:center;gap:14px 20px;padding:16px 20px;border:1px solid color-mix(in srgb, var(--good) 35%, var(--border));background:var(--good-soft);border-radius:12px;text-decoration:none;color:var(--text);}
+  .status:hover{border-color:var(--good);}
+  .status .dot{flex:none;width:12px;height:12px;border-radius:50%;background:var(--good);box-shadow:0 0 0 4px color-mix(in srgb, var(--good) 22%, transparent);}
+  .status .st-text{flex:1 1 280px;min-width:0;}
+  .status h4{margin:0;font-size:15px;font-weight:700;}
+  .status p{margin:2px 0 0;font-size:13px;color:var(--text-muted);}
+  .status .st-go{font-weight:700;font-size:13px;color:var(--good);white-space:nowrap;display:inline-flex;align-items:center;gap:5px;}
+
+  footer.note{font-size:12px;color:var(--text-muted);border-top:1px solid var(--border);padding-top:16px;}
+
+  
+  @media (max-width:560px){
+    .nav-inner{padding:12px 16px;justify-content:center;}
+    .hero-inner{padding:30px 16px 80px;}
+    .wrap{padding-inline:16px;}
+    .links,.links.two{grid-template-columns:1fr;}
+    .tool-body{padding:18px 16px;}
+  }
+</style>
+</head>
+<body>
+
+<header class="site-nav">
+  <div class="nav-inner">
+    <span class="nav-logo">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1824 372" class="logo-img" width="150" height="31" role="img" aria-label="QuickFile"><g transform="translate(0.000000,372.000000) scale(0.100000,-0.100000)" fill="#4b7ff5"><path d="M2040 3443 c-177 -19 -446 -79 -565 -124 -94 -37 -136 -35 -241 7 -48 19 -72 24 -83 17 -28 -17 -59 -114 -71 -218 -9 -83 -16 -110 -46 -164 -125 -227 -107 -323 75 -397 47 -20 74 -24 170 -24 63 0 164 -5 226 -12 140 -14 170 -3 227 83 60 91 208 147 309 117 252 -76 308 -102 386 -179 47 -46 85 -95 102 -129 15 -30 45 -86 66 -125 40 -70 40 -70 40 -280 0 -210 0 -210 -37 -286 -45 -90 -46 -108 -13 -148 30 -35 84 -57 179 -71 107 -17 193 -69 211 -128 3 -12 -1 -66 -10 -120 -26 -150 2 -206 85 -172 17 7 59 51 100 106 124 162 206 357 234 559 9 61 26 155 38 210 43 191 25 384 -62 686 -39 136 -60 175 -144 271 -40 46 -87 103 -105 128 -99 137 -356 279 -588 325 -45 9 -106 25 -136 35 -42 15 -305 47 -311 38 -1 0 -17 -3 -36 -5z"/><path d="M12282 3181 c-113 -19 -141 -81 -177 -401 -24 -214 -44 -345 -66 -440 -11 -47 -24 -132 -29 -190 -23 -259 -31 -320 -54 -390 -36 -114 -65 -266 -77 -407 -5 -74 -24 -189 -43 -273 -36 -152 -46 -209 -71 -405 -18 -138 -11 -183 38 -219 27 -20 43 -21 255 -24 400 -6 392 -13 447 418 14 113 36 261 49 330 14 69 29 156 36 195 12 73 38 127 68 141 9 5 157 11 327 14 432 7 419 -1 450 271 20 178 13 238 -32 280 -24 24 -27 24 -319 29 -294 5 -294 5 -321 32 -55 55 -37 263 30 350 61 79 70 81 390 79 480 -2 467 -10 512 304 33 232 20 282 -82 306 -44 10 -1267 10 -1331 0z"/><path d="M8425 2909 c-182 -23 -231 -37 -360 -99 -55 -26 -116 -55 -135 -63 -19 -8 -56 -30 -82 -50 -26 -20 -64 -47 -85 -60 -130 -83 -356 -353 -465 -557 -19 -36 -47 -86 -62 -112 -81 -140 -127 -515 -87 -708 50 -240 59 -265 143 -376 160 -212 344 -367 498 -419 52 -18 120 -41 150 -53 100 -37 412 -46 595 -16 47 7 218 78 258 106 40 29 47 47 67 191 35 252 44 416 24 438 -25 28 -68 23 -137 -15 -161 -90 -372 -134 -494 -103 -215 56 -297 116 -377 277 -83 167 -82 325 4 544 65 166 143 273 236 326 31 18 71 46 89 62 51 44 117 68 244 89 123 20 151 19 289 -12 97 -22 114 -30 164 -75 74 -66 142 -89 170 -56 30 34 38 63 63 229 13 92 30 200 36 238 10 61 9 77 -7 124 -35 100 -95 127 -346 156 -166 18 -202 18 -393 -6z"/><path d="M709 2843 c-32 -31 -76 -81 -96 -112 -20 -31 -52 -76 -72 -101 -36 -45 -137 -219 -159 -275 -6 -16 -19 -61 -27 -99 -9 -38 -29 -97 -45 -132 -40 -88 -50 -147 -60 -324 -13 -249 2 -405 50 -510 21 -47 46 -110 55 -140 10 -30 36 -89 60 -130 23 -41 54 -95 67 -120 42 -73 228 -237 335 -295 32 -17 85 -49 118 -72 36 -26 88 -50 130 -62 39 -11 111 -35 160 -53 90 -32 90 -32 385 -32 295 1 295 1 415 42 205 70 301 86 343 56 12 -8 54 -62 92 -119 116 -173 164 -166 190 24 6 46 16 95 21 109 6 14 16 67 24 117 8 49 23 134 35 187 23 109 44 416 31 451 -5 13 -16 28 -24 35 -31 26 -360 122 -484 142 -68 11 -166 30 -216 41 -166 38 -254 49 -287 38 -57 -20 -53 -88 11 -186 78 -120 58 -203 -48 -203 -330 0 -601 226 -653 542 -34 210 7 448 101 584 75 109 36 196 -96 215 -200 27 -248 92 -195 261 39 126 22 178 -59 178 -38 0 -49 -6 -102 -57z"/><path d="M3977 2865 c-78 -27 -108 -83 -122 -225 -8 -84 -31 -246 -55 -390 -29 -172 -78 -530 -90 -655 -5 -60 -19 -156 -30 -213 -25 -131 -25 -239 1 -383 36 -203 57 -253 162 -378 92 -109 135 -134 367 -211 172 -56 643 -44 791 20 37 17 99 37 139 45 86 18 100 25 137 68 15 19 53 52 83 74 83 60 256 251 280 309 12 27 39 79 61 116 32 53 44 87 59 170 11 56 36 186 55 288 20 102 42 250 50 329 8 79 19 169 25 200 5 31 14 108 20 171 6 63 22 153 35 200 28 103 50 282 43 369 -4 55 -9 68 -33 88 -28 24 -28 24 -254 21 -299 -4 -300 -5 -326 -225 -8 -65 -21 -138 -30 -163 -21 -58 -41 -188 -61 -384 -11 -111 -29 -212 -59 -335 -24 -97 -51 -216 -60 -266 -40 -218 -92 -333 -202 -446 -88 -91 -101 -96 -284 -105 -173 -9 -186 -5 -282 94 -88 91 -92 103 -92 272 0 225 22 424 60 536 39 114 60 225 76 393 6 64 15 136 20 161 24 106 59 318 59 356 0 52 -28 90 -78 104 -57 15 -419 12 -465 -5z"/><path d="M6496 2870 c-79 -25 -110 -107 -131 -350 -3 -41 -15 -133 -26 -205 -11 -71 -37 -245 -59 -385 -21 -140 -46 -327 -55 -415 -9 -88 -29 -218 -45 -290 -32 -146 -45 -229 -60 -391 -6 -61 -19 -145 -30 -185 -54 -204 -19 -227 328 -217 274 8 279 14 322 460 6 62 22 156 35 208 27 108 51 258 60 375 10 127 24 203 55 311 42 143 57 222 70 364 6 69 29 219 51 334 73 391 74 390 -266 393 -121 1 -233 -2 -249 -7z"/><path d="M9683 2869 c-66 -19 -88 -68 -113 -249 -6 -47 -18 -119 -26 -160 -8 -41 -19 -104 -25 -140 -5 -36 -16 -108 -25 -160 -8 -52 -19 -140 -24 -195 -6 -55 -21 -134 -35 -175 -13 -41 -29 -104 -35 -138 -6 -35 -16 -76 -21 -90 -6 -15 -14 -88 -19 -162 -4 -74 -17 -184 -29 -245 -12 -60 -33 -164 -46 -230 -26 -129 -49 -295 -49 -361 -1 -49 22 -87 67 -111 46 -26 439 -33 486 -9 46 24 80 77 92 142 6 33 19 102 30 154 17 84 44 282 64 479 9 86 31 140 61 147 36 9 101 -40 133 -99 27 -49 59 -100 171 -267 35 -52 74 -120 88 -150 69 -152 230 -368 303 -406 22 -11 87 -14 322 -14 342 0 347 1 347 85 0 62 -9 81 -114 239 -51 78 -105 165 -120 195 -15 29 -50 81 -78 115 -68 82 -244 339 -275 401 -14 28 -45 76 -69 108 -51 68 -69 121 -60 171 7 34 103 136 427 455 216 212 515 523 529 552 26 49 25 81 -1 105 -20 18 -40 19 -308 19 -345 0 -313 12 -486 -180 -65 -71 -164 -177 -220 -235 -56 -58 -126 -134 -155 -170 -156 -192 -255 -280 -317 -280 -62 0 -71 98 -23 254 35 114 70 351 70 472 0 81 -1 87 -29 115 -29 29 -29 29 -243 28 -117 0 -227 -5 -245 -10z"/><path d="M14075 2865 c-83 -41 -119 -164 -165 -549 -7 -55 -27 -173 -45 -262 -19 -89 -37 -191 -40 -226 -11 -107 -94 -697 -114 -813 -22 -125 -51 -390 -51 -466 0 -107 54 -125 339 -117 247 7 260 19 281 253 12 136 31 247 54 313 23 65 46 191 66 363 10 90 34 236 54 324 19 88 45 239 56 335 23 191 69 510 95 661 20 118 9 160 -49 184 -51 22 -438 21 -481 0z"/><path d="M15145 2868 c-83 -29 -95 -58 -130 -313 -14 -104 -32 -230 -40 -279 -8 -49 -15 -112 -15 -140 0 -28 -10 -94 -21 -146 -26 -123 -34 -176 -58 -405 -14 -136 -28 -217 -49 -285 -38 -126 -69 -280 -82 -415 -5 -60 -20 -155 -32 -210 -34 -158 -24 -205 53 -232 58 -20 1211 -18 1250 3 44 22 73 95 103 254 52 272 55 270 -306 270 -390 1 -417 16 -384 208 21 120 54 387 62 502 4 52 22 154 40 227 18 72 40 194 49 270 18 152 56 353 86 452 10 35 19 90 19 123 0 121 -18 128 -302 127 -120 0 -226 -5 -243 -11z"/><path d="M16779 2871 c-45 -14 -68 -31 -84 -60 -24 -47 -116 -600 -135 -816 -8 -81 -23 -167 -41 -230 -46 -160 -69 -278 -79 -411 -11 -132 -16 -163 -50 -314 -27 -118 -70 -416 -70 -480 0 -59 33 -104 88 -120 25 -8 225 -10 614 -8 576 3 576 3 619 33 66 47 77 69 99 198 29 174 27 231 -9 268 -29 29 -29 29 -279 29 -386 0 -409 9 -405 157 4 113 23 180 65 220 61 59 83 63 335 63 254 0 285 5 336 55 47 46 64 104 76 260 17 219 19 218 -332 225 -288 6 -305 10 -332 65 -29 63 -8 180 52 283 44 76 67 82 358 82 393 0 388 -4 416 309 20 218 73 201 -646 200 -313 0 -582 -4 -596 -8z"/></g></svg>
+      <span class="logo-badge">Support Portal</span>
+    </span>
+    <a class="btn-home" href="https://www.quickfile.co.uk/" target="_blank" rel="noopener">QuickFile Homepage <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M7 17L17 7"/><path d="M8 7h9v9"/></svg></a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-badge">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
+      QuickFile Support Portal
+    </div>
+    <h1>Help, Training and Tools for QuickFile Users in One Place</h1>
+    <p class="hero-sub">Learn QuickFile with free courses and videos, run extra reports from your backup, and open old records long after an account is closed. Support articles, the community forum, YouTube and the blog are here too, and every link opens in a new tab.</p>
+    <div class="hero-stats">
+      <a class="stat-pill" href="#tools">Tools, training &amp; help</a>
+      <a class="stat-pill" href="#services">Services</a>
+      <a class="stat-pill" href="#contact">Contact support</a>
+      <a class="stat-pill" href="#status">Service status</a>
+    </div>
+  </div>
+</section>
+
+<main class="wrap">
+
+  <!-- ============ tools and help (8) ============ -->
+  <section class="tools" id="tools" aria-label="QuickFile tools and help">
+
+    <article class="tool">
+      <div class="tool-art" aria-hidden="false"><svg viewBox="0 0 96 96" width="84" height="84" role="img" aria-label="Training course on a laptop" xmlns="http://www.w3.org/2000/svg"><rect x="14" y="24" width="58" height="38" rx="4" fill="rgba(255,255,255,.18)" stroke="#fff" stroke-width="3"/><path d="M6 66h74l-5 7H11z" fill="#fff"/><circle cx="43" cy="43" r="11" fill="#fff"/><path d="M39.5 37.5v11l9.5-5.5z" fill="#2f6feb"/><rect x="62" y="10" width="26" height="30" rx="4" fill="#fff"/><path d="M67 18.5l2.5 2.5 4-4.5M67 29.5l2.5 2.5 4-4.5" stroke="#2f6feb" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M77 19.5h6M77 30.5h6" stroke="#c9d8fa" stroke-width="2.6" stroke-linecap="round"/></svg></div>
+      <div class="tool-body">
+        <div class="tool-top">
+          <div class="tool-title">
+            <div class="eyebrow">Training</div>
+            <h3>QuickFile Academy</h3>
+          </div>
+        </div>
+        <p>Official QuickFile training courses, from the basics through to advanced bookkeeping. Each course pairs short video lessons with practical exercises, with an assessment at the end to check what you've learned.</p>
+        <ul class="features"><li>Video courses</li><li>Practical exercises</li><li>Assessments</li><li>Beginner to advanced</li></ul>
+        <details class="guide" id="guide-academy">
+          <summary>Quick guide <svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
+          <ol>
+            <li>Open the Academy and pick a course that matches your level.</li>
+            <li>Watch each video lesson at your own pace.</li>
+            <li>Try the practical exercise that goes with each lesson.</li>
+            <li>Take the assessment at the end of the course to check what you've learned.</li>
+          </ol>
+        </details>
+        <div class="tool-actions">
+          <a class="btn primary" href="https://quickfile-academy.vercel.app/" target="_blank" rel="noopener">Open Academy <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M7 17L17 7"/><path d="M8 7h9v9"/></svg></a>
+        </div>
+      </div>
+    </article>
+
+    <article class="tool">
+      <div class="tool-art" aria-hidden="false"><svg viewBox="0 0 96 96" width="84" height="84" role="img" aria-label="Report with a bar chart" xmlns="http://www.w3.org/2000/svg"><rect x="18" y="10" width="52" height="68" rx="5" fill="#fff"/><path d="M27 21h26M27 28h16" stroke="#c9d8fa" stroke-width="3" stroke-linecap="round"/><rect x="27" y="52" width="7" height="16" rx="1.5" fill="#c9d8fa"/><rect x="38" y="44" width="7" height="24" rx="1.5" fill="#9db8f5"/><rect x="49" y="36" width="7" height="32" rx="1.5" fill="#2f6feb"/><rect x="60" y="46" width="7" height="22" rx="1.5" fill="#9db8f5"/><rect x="54" y="62" width="34" height="22" rx="11" fill="#1f4fc4" stroke="#fff" stroke-width="2.5"/><path d="M62 77l6-6 4 4 8-8" stroke="#fff" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="tool-body">
+        <div class="tool-top">
+          <div class="tool-title">
+            <div class="eyebrow">Reports</div>
+            <h3>QuickFile Reporting</h3>
+          </div>
+        </div>
+        <p>Ledger Line Reports turns a QuickFile backup into 58 reports across 6 categories. It covers the standard QuickFile statements, ledgers and sales and purchase reports, plus advanced reports QuickFile doesn't offer. Your backup is read in the browser tab and never uploaded.</p>
+        <ul class="features"><li>58 reports</li><li>Runs in your browser</li><li>Nothing uploaded</li><li>Free to use</li></ul>
+        <details class="guide" id="guide-reporting">
+          <summary>Quick guide <svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
+          <ol>
+            <li>In QuickFile, download a backup of your account as a .zip file.</li>
+            <li>Open the Reporting tool and choose that backup .zip.</li>
+            <li>Pick a report, then set the date range and filters.</li>
+            <li>Export the rows to CSV or copy them into Excel or Google Sheets.</li>
+          </ol>
+        </details>
+        <div class="tool-actions">
+          <a class="btn primary" href="https://reporting-tool-v2.vercel.app/" target="_blank" rel="noopener">Open Reporting <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M7 17L17 7"/><path d="M8 7h9v9"/></svg></a>
+          <a class="btn outline" href="https://reporting-tool-v2.vercel.app/guide.html" target="_blank" rel="noopener">Full guide</a>
+          <a class="btn outline" href="https://reporting-tool-v2.vercel.app/faq.html" target="_blank" rel="noopener">FAQ</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="tool">
+      <div class="tool-art" aria-hidden="false"><svg viewBox="0 0 96 96" width="84" height="84" role="img" aria-label="Archive box of records" xmlns="http://www.w3.org/2000/svg"><rect x="26" y="10" width="22" height="22" rx="2" fill="#c9d8fa" transform="rotate(-9 37 21)"/><rect x="46" y="8" width="22" height="24" rx="2" fill="#e9f0fe" transform="rotate(7 57 20)"/><path d="M50 15h12M50 20h9" stroke="#9db8f5" stroke-width="2" stroke-linecap="round" transform="rotate(7 57 20)"/><rect x="12" y="26" width="72" height="14" rx="3" fill="#fff"/><path d="M18 40h60v34a5 5 0 0 1-5 5H23a5 5 0 0 1-5-5z" fill="rgba(255,255,255,.22)" stroke="#fff" stroke-width="3"/><rect x="37" y="50" width="22" height="8" rx="4" fill="#fff"/></svg></div>
+      <div class="tool-body">
+        <div class="tool-top">
+          <div class="tool-title">
+            <div class="eyebrow">Records</div>
+            <h3>QuickFile Archive</h3>
+          </div>
+        </div>
+        <p>Open your QuickFile records straight from a backup, even after the account is closed. Browse invoices, purchases, payments, contacts, bank statements and ledger postings, re-create invoices as PDFs, and check the Trial Balance, Profit and Loss and Balance Sheet at any date.</p>
+        <ul class="features"><li>Invoices as PDFs</li><li>Read-only</li><li>Nothing uploaded</li><li>Keep 6 years of records</li></ul>
+        <details class="guide" id="guide-archive">
+          <summary>Quick guide <svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
+          <ol>
+            <li>Download a full backup .zip from QuickFile and keep it somewhere safe.</li>
+            <li>Open the Archive Viewer and choose your backup .zip.</li>
+            <li>Use the Show menu to switch between invoices, purchases, contacts, bank and reports.</li>
+            <li>Click any row to see the full record, or download an invoice as a PDF.</li>
+          </ol>
+        </details>
+        <div class="tool-actions">
+          <a class="btn primary" href="https://quickfile-archive-viewer.vercel.app/index.html#invoices" target="_blank" rel="noopener">Open Archive <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M7 17L17 7"/><path d="M8 7h9v9"/></svg></a>
+          <a class="btn outline" href="https://quickfile-archive-viewer.vercel.app/guide.html" target="_blank" rel="noopener">Full guide</a>
+          <a class="btn outline" href="https://quickfile-archive-viewer.vercel.app/faq.html" target="_blank" rel="noopener">FAQ</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="tool">
+      <div class="tool-art" aria-hidden="false"><svg viewBox="0 0 96 96" width="84" height="84" role="img" aria-label="Library of videos" xmlns="http://www.w3.org/2000/svg"><rect x="8" y="14" width="56" height="40" rx="5" fill="#fff"/><path d="M30 25v18l14-9z" fill="#2f6feb"/><rect x="8" y="60" width="56" height="4" rx="2" fill="rgba(255,255,255,.35)"/><rect x="8" y="60" width="32" height="4" rx="2" fill="#fff"/><rect x="69" y="14" width="20" height="14" rx="3" fill="rgba(255,255,255,.6)"/><rect x="69" y="33" width="20" height="14" rx="3" fill="rgba(255,255,255,.45)"/><rect x="69" y="52" width="20" height="14" rx="3" fill="rgba(255,255,255,.3)"/><rect x="8" y="70" width="26" height="14" rx="3" fill="rgba(255,255,255,.45)"/><rect x="38" y="70" width="26" height="14" rx="3" fill="rgba(255,255,255,.3)"/></svg></div>
+      <div class="tool-body">
+        <div class="tool-top">
+          <div class="tool-title">
+            <div class="eyebrow">Videos</div>
+            <h3>QuickFile Videos</h3>
+          </div>
+        </div>
+        <p>Every video from the QuickFile Help Guides YouTube channel, sorted by topic and searchable in one place. Each one is a short, practical walkthrough of a QuickFile task, so you can find the one you need without scrolling through YouTube.</p>
+        <ul class="features"><li>Sorted by topic</li><li>Searchable</li><li>Short walkthroughs</li><li>Sort by newest or most viewed</li></ul>
+        <details class="guide" id="guide-videos">
+          <summary>Quick guide <svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
+          <ol>
+            <li>Open QuickFile Videos and pick a topic, or type what you need into the search box.</li>
+            <li>Change the sort order to see the newest, oldest, most viewed or A to Z.</li>
+            <li>Click a video to watch it on YouTube.</li>
+          </ol>
+        </details>
+        <div class="tool-actions">
+          <a class="btn primary" href="https://quickfile-videos.vercel.app/" target="_blank" rel="noopener">Open Videos <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M7 17L17 7"/><path d="M8 7h9v9"/></svg></a>
+        </div>
+      </div>
+    </article>
+
+    <article class="tool">
+      <div class="tool-art" aria-hidden="false"><svg viewBox="0 0 96 96" width="84" height="84" role="img" aria-label="Help book with a question" xmlns="http://www.w3.org/2000/svg"><path d="M48 32c-8-6-20-8-36-6v46c16-2 28 0 36 6z" fill="#fff"/><path d="M48 32c8-6 20-8 36-6v46c-16-2-28 0-36 6z" fill="#e9f0fe"/><path d="M20 37c8-1 15 0 21 2M20 46c8-1 15 0 21 2M20 55c8-1 15 0 21 2M76 46c-8-1-15 0-21 2M76 55c-8-1-15 0-21 2" stroke="#c9d8fa" stroke-width="2.6" fill="none" stroke-linecap="round"/><circle cx="70" cy="22" r="14" fill="#1f4fc4" stroke="#fff" stroke-width="3"/><path d="M65.5 18.5a4.5 4.5 0 1 1 6.2 4.2c-1.3.5-1.9 1.5-1.9 2.8v.8" stroke="#fff" stroke-width="2.8" fill="none" stroke-linecap="round"/><circle cx="69.8" cy="30.5" r="1.9" fill="#fff"/></svg></div>
+      <div class="tool-body">
+        <div class="tool-top">
+          <div class="tool-title">
+            <div class="eyebrow">Help articles</div>
+            <h3>QuickFile Support Articles</h3>
+          </div>
+        </div>
+        <p>Step-by-step help articles covering every part of QuickFile, from setting up your account to VAT returns and year end. Start here when you want to know how a feature works.</p>
+        <ul class="features"><li>Step-by-step articles</li><li>Every feature covered</li><li>Searchable</li></ul>
+        <details class="guide" id="guide-support">
+          <summary>Quick guide <svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
+          <ol>
+            <li>Open Support Articles and type your question or a keyword into the search box.</li>
+            <li>Pick the article that matches what you are trying to do.</li>
+            <li>Follow the steps, keeping QuickFile open in another tab.</li>
+          </ol>
+        </details>
+        <div class="tool-actions">
+          <a class="btn primary" href="https://support.quickfile.co.uk/" target="_blank" rel="noopener">Open Articles <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M7 17L17 7"/><path d="M8 7h9v9"/></svg></a>
+        </div>
+      </div>
+    </article>
+
+    <article class="tool">
+      <div class="tool-art" aria-hidden="false"><svg viewBox="0 0 96 96" width="84" height="84" role="img" aria-label="Conversation in the forum" xmlns="http://www.w3.org/2000/svg"><path d="M10 20a6 6 0 0 1 6-6h42a6 6 0 0 1 6 6v24a6 6 0 0 1-6 6H30L18 60V50h-2a6 6 0 0 1-6-6z" fill="#fff"/><circle cx="25" cy="32" r="3.6" fill="#2f6feb"/><circle cx="37" cy="32" r="3.6" fill="#2f6feb"/><circle cx="49" cy="32" r="3.6" fill="#2f6feb"/><path d="M36 46a6 6 0 0 1 6-6h38a6 6 0 0 1 6 6v20a6 6 0 0 1-6 6h-3v10L65 72H42a6 6 0 0 1-6-6z" fill="#1f4fc4" stroke="#fff" stroke-width="3" stroke-linejoin="round"/><path d="M46 52h30M46 60h18" stroke="#fff" stroke-width="3" stroke-linecap="round"/></svg></div>
+      <div class="tool-body">
+        <div class="tool-top">
+          <div class="tool-title">
+            <div class="eyebrow">Community</div>
+            <h3>QuickFile Community Forum</h3>
+          </div>
+        </div>
+        <p>Ask a question, search past answers and get help from the QuickFile team and other users.</p>
+        <ul class="features"><li>Ask questions</li><li>Past answers</li><li>QuickFile team replies</li></ul>
+        <details class="guide" id="guide-community">
+          <summary>Quick guide <svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
+          <ol>
+            <li>Search the forum first, as your question may already have an answer.</li>
+            <li>If not, sign in and start a new topic in the right category.</li>
+            <li>Describe the problem clearly, without posting any private financial details.</li>
+          </ol>
+        </details>
+        <div class="tool-actions">
+          <a class="btn primary" href="https://community.quickfile.co.uk/" target="_blank" rel="noopener">Open Forum <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M7 17L17 7"/><path d="M8 7h9v9"/></svg></a>
+        </div>
+      </div>
+    </article>
+
+    <article class="tool">
+      <div class="tool-art" aria-hidden="false"><svg viewBox="0 0 96 96" width="84" height="84" role="img" aria-label="Video channel on a screen" xmlns="http://www.w3.org/2000/svg"><rect x="8" y="16" width="80" height="52" rx="6" fill="rgba(255,255,255,.2)" stroke="#fff" stroke-width="3"/><path d="M34 80h28M48 68v12" stroke="#fff" stroke-width="3.5" stroke-linecap="round"/><rect x="29" y="28" width="38" height="28" rx="8" fill="#FF0000"/><path d="M43 34.5v15l13-7.5z" fill="#fff"/></svg></div>
+      <div class="tool-body">
+        <div class="tool-top">
+          <div class="tool-title">
+            <div class="eyebrow">YouTube</div>
+            <h3>QuickFile YouTube Channel</h3>
+          </div>
+        </div>
+        <p>The QuickFile Help Guides channel on YouTube, with video walkthroughs of everyday QuickFile tasks. Subscribe to hear about new videos as they are published.</p>
+        <ul class="features"><li>Video walkthroughs</li><li>New videos added</li><li>Free to watch</li></ul>
+        <details class="guide" id="guide-youtube">
+          <summary>Quick guide <svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
+          <ol>
+            <li>Open the channel and browse the Videos or Playlists tab.</li>
+            <li>Use the channel search to find a specific task.</li>
+            <li>Subscribe to get notified when new guides are added.</li>
+          </ol>
+        </details>
+        <div class="tool-actions">
+          <a class="btn primary" href="https://www.youtube.com/@QuickFileHelpGuides" target="_blank" rel="noopener">Open YouTube <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M7 17L17 7"/><path d="M8 7h9v9"/></svg></a>
+        </div>
+      </div>
+    </article>
+
+    <article class="tool">
+      <div class="tool-art" aria-hidden="false"><svg viewBox="0 0 96 96" width="84" height="84" role="img" aria-label="Notepad and pen" xmlns="http://www.w3.org/2000/svg"><rect x="14" y="16" width="48" height="66" rx="5" fill="#fff"/><path d="M25 11v10M38 11v10M51 11v10" stroke="#1f4fc4" stroke-width="3.5" stroke-linecap="round"/><path d="M23 31h20" stroke="#2f6feb" stroke-width="3.6" stroke-linecap="round"/><path d="M23 41h30M23 50h30M23 59h22M23 68h26" stroke="#c9d8fa" stroke-width="3" stroke-linecap="round"/><g transform="rotate(35 74 50)"><rect x="68" y="18" width="12" height="48" rx="3" fill="#1f4fc4" stroke="#fff" stroke-width="2.5"/><path d="M68 66h12l-6 11z" fill="#fff"/><path d="M68 26h12" stroke="#fff" stroke-width="2.5"/></g></svg></div>
+      <div class="tool-body">
+        <div class="tool-top">
+          <div class="tool-title">
+            <div class="eyebrow">Blog</div>
+            <h3>QuickFile Blog</h3>
+          </div>
+        </div>
+        <p>Articles on bookkeeping and small business finance, including bank reconciliation, invoicing, tax planning and Making Tax Digital.</p>
+        <ul class="features"><li>Bookkeeping tips</li><li>Tax and MTD</li><li>Small business finance</li></ul>
+        <details class="guide" id="guide-blog">
+          <summary>Quick guide <svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
+          <ol>
+            <li>Open the Blog to see the latest articles first.</li>
+            <li>Scroll or search for a topic you want to read about.</li>
+            <li>Open an article to read it in full.</li>
+          </ol>
+        </details>
+        <div class="tool-actions">
+          <a class="btn primary" href="https://community.quickfile.co.uk/c/blog/47" target="_blank" rel="noopener">Open Blog <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M7 17L17 7"/><path d="M8 7h9v9"/></svg></a>
+        </div>
+      </div>
+    </article>
+  </section>
+
+  <section class="resource-group" id="services" aria-labelledby="svc-h">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow">Services</div>
+        <h2 id="svc-h">Accountants and Company Formation</h2>
+      </div>
+    </div>
+    <div class="links two">
+      <a class="link-card" href="https://www.findanaccountant.co.uk/" target="_blank" rel="noopener">
+        <div class="lc-top"><span class="lc-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></span><h4>Find an Accountant Directory</h4></div>
+        <p>Search for an accountant or bookkeeper near you who works with QuickFile, to help with your books, tax returns or year-end accounts.</p>
+        <span class="lc-go">findanaccountant.co.uk →</span>
+      </a>
+      <a class="link-card" href="https://www.companywizard.co.uk/" target="_blank" rel="noopener">
+        <div class="lc-top"><span class="lc-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 21h18"/><path d="M5 21V8l7-5 7 5v13"/><path d="M9 21v-6h6v6"/></svg></span><h4>Company Wizard</h4></div>
+        <p>Set up a new UK limited company online. Company Wizard handles registration with Companies House so you can start trading.</p>
+        <span class="lc-go">companywizard.co.uk →</span>
+      </a>
+    </div>
+  </section>
+
+  <section class="resource-group" id="contact" aria-labelledby="ct-h">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow">Contact support</div>
+        <h2 id="ct-h">Contacting the Support Team</h2>
+      </div>
+    </div>
+    <div class="contact">
+      <div class="contact-art"><svg viewBox="0 0 96 96" width="64" height="64" role="img" aria-label="Private message to the support team" xmlns="http://www.w3.org/2000/svg"><rect x="8" y="22" width="64" height="46" rx="6" fill="#fff"/><path d="M10 26l30 22 30-22" stroke="#c9d8fa" stroke-width="3.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/><rect x="54" y="52" width="32" height="28" rx="5" fill="#1f4fc4" stroke="#fff" stroke-width="3"/><path d="M61 52v-6a9 9 0 0 1 18 0v6" stroke="#fff" stroke-width="3.4" fill="none"/><circle cx="70" cy="64" r="3.4" fill="#fff"/><path d="M70 66v6" stroke="#fff" stroke-width="3" stroke-linecap="round"/></svg></div>
+      <div class="contact-text">
+        <p class="contact-lead">We don't offer telephone support. The quickest way to get help is through the Community Forum.</p>
+        <ul class="contact-points">
+          <li><strong>General questions:</strong> post them on the Community Forum. The support team monitors it every day, and other users can help too.</li>
+          <li><strong>Sensitive details:</strong> if your question includes company names, account numbers or anything else private, send the support team a private message through the forum instead of posting publicly.</li>
+        </ul>
+      </div>
+      <a class="btn primary contact-btn" href="https://community.quickfile.co.uk/" target="_blank" rel="noopener">Go to the Forum <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M7 17L17 7"/><path d="M8 7h9v9"/></svg></a>
+    </div>
+  </section>
+
+  <section class="resource-group" id="status" aria-labelledby="st-h">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow">Service status</div>
+        <h2 id="st-h">Is QuickFile Working?</h2>
+      </div>
+    </div>
+    <a class="status" href="https://status.quickfile.co.uk/" target="_blank" rel="noopener">
+      <span class="dot" aria-hidden="true"></span>
+      <span class="st-text">
+        <h4>QuickFile Status Page</h4>
+        <p>Check live system status, planned maintenance and any current incidents before contacting support.</p>
+      </span>
+      <span class="st-go">status.quickfile.co.uk →</span>
+    </a>
+  </section>
+
+  <footer class="note">The Reporting and Archive tools read your backup inside your own browser tab. Your data is never uploaded or stored anywhere else.</footer>
+</main>
+
+</body>
+</html>
