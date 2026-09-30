@@ -17,6 +17,9 @@
     --accent-soft:#e9f0fe;
     --good:#1e7a4c;
     --good-soft:#e3f3ea;
+    --warn:#8a5a00;
+    --warn-soft:#fff6e0;
+    --warn-border:#f0c96a;
     --on-brand:#ffffff;
     --brand-gradient:linear-gradient(135deg,#2f5fe0 0%,#3fa0e6 100%);
     --shadow:0 1px 2px rgba(20,30,40,.06), 0 8px 24px rgba(20,30,40,.06);
@@ -152,6 +155,9 @@
   .contact-lead{margin:0 0 6px;font-weight:700;font-size:14.5px;}
   .contact-points{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px;font-size:13.5px;max-width:80ch;}
   .contact-points li::marker{color:var(--brand-blue);}
+  .contact-note{display:flex;gap:10px;align-items:flex-start;margin:12px 0 0;padding:10px 12px;border:1px solid var(--warn-border);border-left:4px solid var(--warn);background:var(--warn-soft);border-radius:8px;font-size:13px;max-width:80ch;}
+  .contact-note svg{flex:none;margin-top:1px;color:var(--warn);}
+  .contact-note strong{color:var(--warn);}
   @media (max-width:760px){ .contact{grid-template-columns:auto minmax(0,1fr);} .contact-btn{grid-column:1 / -1;justify-self:start;} }
   @media (max-width:480px){ .contact{grid-template-columns:1fr;padding:16px;} }
 
@@ -478,6 +484,7 @@
           <li><strong>General questions:</strong> post them on the Community Forum. The support team monitors it every day, and other users can help too.</li>
           <li><strong>Sensitive details:</strong> if your question includes company names, account numbers or anything else private, send the support team a private message through the forum instead of posting publicly.</li>
         </ul>
+        <p class="contact-note" role="note"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.3 3.9L1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg><span><strong>Please note:</strong> the Community Forum is hosted by a third party and doesn't use your QuickFile login. If you haven't already, you'll need to sign up for a separate forum account before you can post or send a private message. For your security, please don't reuse the password you use for QuickFile.</span></p>
       </div>
       <a class="btn primary contact-btn" href="https://community.quickfile.co.uk/" target="_blank" rel="noopener">Go to the Forum <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M7 17L17 7"/><path d="M8 7h9v9"/></svg></a>
     </div>
