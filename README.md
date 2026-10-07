@@ -29,6 +29,7 @@ Cards appear in the order they're written.
 | Support Articles | https://support.quickfile.co.uk/ |
 | YouTube Channel | https://www.youtube.com/@QuickFileHelpGuides |
 | MTD for Income Tax Guide | https://quickfile-mtd-itsa-guide.vercel.app/ |
+| REST API Guide | https://quickfile-api-guide.vercel.app/ |
 | Reporting | https://reporting-tool-v2.vercel.app/ |
 | Archive | https://quickfile-archive-viewer.vercel.app/ |
 | Academy | https://quickfile-academy.vercel.app/ |
